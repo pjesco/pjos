@@ -13,15 +13,15 @@ clean:
 	rm -rf *.o
 
 kernel:
-	echo here
 	$(CC) -c kernel.c -o kernel.o -g -std=gnu99 -ffreestanding -O2 -Wall -Wextra -nostdlib
+	$(CC) -c gdt.c -o gdt.o -g -std=gnu99 -ffreestanding -O2 -Wall -Wextra -nostdlib
 
 boot:
-	echo boot
 	$(AS) boot.s -o boot.o
+	nasm -f elf32 gdt.s -o gdts.o
 
 image:
-	$(CC) -T linker.ld -o pjos.bin -ffreestanding -O2 -nostdlib boot.o kernel.o -lgcc
+	$(CC) -T linker.ld -o pjos.bin -ffreestanding -O2 -nostdlib boot.o kernel.o gdt.o gdts.o -lgcc
 	mkdir -p isodir/boot/grub
 	cp pjos.bin isodir/boot/grub
 	cp grub.cfg isodir/boot/grub/grub.cfg

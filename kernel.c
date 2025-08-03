@@ -2,6 +2,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "gdt.h"
+
 #if defined(__linux__)
 #error "You are not using a cross-compiler, you will most certainly run into trouble"
 #endif
@@ -129,6 +131,8 @@ void terminal_writestring(const char* data)
 
 void kernel_main(void) 
 {
+    initGDT();
+
 	/* Initialize terminal interface */
 	terminal_initialize();
 
