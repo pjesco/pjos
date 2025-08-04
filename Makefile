@@ -15,16 +15,19 @@ clean:
 	rm -rf *.o
 
 kernel:
-	$(CC) -c kernel.c -o kernel.o $(CFLAGS)
-	$(CC) -c util.c -o util.o $(CFLAGS)
-	$(CC) -c gdt.c -o gdt.o $(CFLAGS)
+	$(CC) -c src/kernel.c -o kernel.o $(CFLAGS)
+	$(CC) -c src/util.c -o util.o $(CFLAGS)
+	$(CC) -c src/gdt.c -o gdt.o $(CFLAGS)
+	$(CC) -c src/vga.c -o vga.o $(CFLAGS)
+	$(CC) -c src/interrupts/idt.c -o idt.o $(CFLAGS)
 
 boot:
-	$(AS) boot.s -o boot.o
-	nasm -f elf32 gdt.s -o gdts.o
+	$(AS) src/boot.s -o boot.o
+	nasm -f elf32 src/gdt.s -o gdts.o
+	nasm -f elf32 src/interrupts/idt.s -o idts.o
 
 image:
-	$(CC) -T linker.ld -o pjos.bin -ffreestanding -O2 -nostdlib boot.o kernel.o gdt.o gdts.o util.o -lgcc
+	$(CC) -T linker.ld -o pjos.bin -ffreestanding -O2 -nostdlib boot.o kernel.o vga.o gdt.o gdts.o util.o idt.o idts.o -lgcc
 	mkdir -p isodir/boot/grub
 	cp pjos.bin isodir/boot/grub
 	cp grub.cfg isodir/boot/grub/grub.cfg
