@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "gdt.h": "c",
-        "stdint.h": "c"
+        "stdint.h": "c",
+        "compare": "c"
     }
 }

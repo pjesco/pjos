@@ -101,7 +101,7 @@ isr_common_stub:
     CALL isr_handler
 
     add esp, 8
-    pop edx
+    pop ebx
     mov ds, bx
     mov es, bx
     mov fs, bx
@@ -130,7 +130,7 @@ irq_common_stub:
     CALL irq_handler
 
     add esp, 8
-    pop edx
+    pop ebx
     mov ds, bx
     mov es, bx
     mov fs, bx

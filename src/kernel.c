@@ -5,6 +5,7 @@
 #include "gdt.h"
 #include "vga.h"
 #include "interrupts/idt.h"
+#include "timer.h"
 
 #if defined(__linux__)
 #error "You are not using a cross-compiler, you will most certainly run into trouble"
@@ -18,8 +19,12 @@
 void kernel_main(void) 
 {
     initGDT();
-    initIDT();
+    print("GDT is done!\r\n");
+    initIdt();
+    print("IDT is done!\r\n");
+    //print((char*)(1/0));
+    initTimer();
+    print("Timer is done!\r\n");
 
     print("Hello, Kernel World!");
-
 }
