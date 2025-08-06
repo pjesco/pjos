@@ -6,6 +6,8 @@
 #include "vga.h"
 #include "interrupts/idt.h"
 #include "timer.h"
+#include "keyboard.h"
+#include "stdlib/stdio.h"
 
 #if defined(__linux__)
 #error "You are not using a cross-compiler, you will most certainly run into trouble"
@@ -26,5 +28,10 @@ void kernel_main(void)
     initTimer();
     print("Timer is done!\r\n");
 
-    print("Hello, Kernel World!");
+    initKeyboard();
+    print("Keyboard is done!\r\n");
+
+    printf("Hello, Kernel World!\n");
+
+    for (;;) {}
 }

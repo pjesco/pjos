@@ -6,7 +6,7 @@ LD = $(CROSS-COMPILE)-ld
 SYSROOT=$(pwd)/sysroot
 CC:= $(CC) --sysroot=$(SYSROOT)
 
-CFLAGS = -g -std=gnu99 -ffreestanding -O2 -Wall -Wextra -nostdlib
+CFLAGS = -g -std=gnu99 -ffreestanding -Wall -Wextra -nostdlib
 
 .PHONY: clean kernel boot image
 all: clean kernel boot image
@@ -21,6 +21,8 @@ kernel:
 	$(CC) -c src/vga.c -o vga.o $(CFLAGS)
 	$(CC) -c src/interrupts/idt.c -o idt.o $(CFLAGS)
 	$(CC) -c src/timer.c -o timer.o $(CFLAGS)
+	$(CC) -c src/keyboard.c -o keyboard.o $(CFLAGS)
+	$(CC) -c src/stdlib/stdio.c -o stdio.o $(CFLAGS)
 
 boot:
 	nasm -f elf32 src/boot.s -o boot.o
@@ -28,7 +30,7 @@ boot:
 	nasm -f elf32 src/interrupts/idt.s -o idts.o
 
 image:
-	$(CC) -T linker.ld -o pjos.bin -ffreestanding -O2 -nostdlib boot.o kernel.o vga.o gdt.o gdts.o util.o idt.o idts.o timer.o -lgcc
+	$(CC) -T linker.ld -o pjos.bin -ffreestanding -O2 -nostdlib boot.o kernel.o vga.o gdt.o gdts.o util.o idt.o idts.o timer.o keyboard.o stdio.o -lgcc
 	mkdir -p isodir/boot/grub
 	cp pjos.bin isodir/boot/grub
 	cp grub.cfg isodir/boot/grub/grub.cfg
