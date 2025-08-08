@@ -1,0 +1,7 @@
+
+romimage: file=/home/pesco/bochs/bochs-3.0/bios/BIOS-bochs-latest
+vgaromimage: file=/home/pesco/bochs/bochs-3.0/bios/VGABIOS-lgpl-latest.bin
+ata0-slave: type=cdrom, path=pjos.iso, status=inserted
+boot:cdrom
+display_library: x, options = "gui_debug"
+plugin_ctrl: speaker=0
